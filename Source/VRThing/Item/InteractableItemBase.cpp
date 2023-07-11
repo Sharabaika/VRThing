@@ -21,6 +21,7 @@ void AInteractableItemBase::GripBy(UItemGripComponent* ItemGrip,
 		EAttachmentRule::KeepWorld, false);
 	AttachToComponent(InteractionComponent, AttachmentRules);
 	SetActorRelativeLocation(ItemGrip->GetRelativeLocation());
+	SetActorRelativeRotation(ItemGrip->GetRelativeRotation().GetInverse());
 }
 
 void AInteractableItemBase::DropFrom(UPlayerInteractionComponent* InteractionComponent)

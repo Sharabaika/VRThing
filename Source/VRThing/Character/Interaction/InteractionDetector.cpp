@@ -7,17 +7,16 @@ void UInteractionDetector::BeginPlay()
 	OnComponentBeginOverlap.AddDynamic(this, &ThisClass::OnOverlapBegin);
 }
 
-void UInteractionDetector::SetDetectedInteractable(IInteractableComponent* Value)
+void UInteractionDetector::SetDetectedInteractable(UObject* Object)
 {
-	DetectedInteractable.SetInterface(Value);
+	DetectedInteractable = Object;
 }
 
 void UInteractionDetector::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
                                           UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	auto* Interactable = Cast<IInteractableComponent>(OtherComp);
-	if (OtherComp)
+	if (OtherComp->Implements<UInteractableComponent>())
 	{
-		SetDetectedInteractable(Interactable);
+		SetDetectedInteractable(OtherComp);
 	}
 }

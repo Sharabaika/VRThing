@@ -14,7 +14,6 @@ void UPlayerInteractionComponent::BeginPlay()
 
 void UPlayerInteractionComponent::SetupPlayerInputComponent(UInputComponent* InputComponent)
 {
-
 	const int32 WhichHandInt{ static_cast<int32>(WhichHand) };
 
 	const static FName GripNames[]{InputNames::GripLeft, InputNames::GripRight };
@@ -91,10 +90,10 @@ void UPlayerInteractionComponent::OnFakeTriggerReleased()
 
 void UPlayerInteractionComponent::OnFakeGripPressed()
 {
-
+	TryToInteract();
 }
 
 void UPlayerInteractionComponent::OnFakeGripReleased()
 {
-
+	StopInteracting();
 }

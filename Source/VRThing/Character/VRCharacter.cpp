@@ -62,7 +62,8 @@ void AVRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	LeftMotionController->SetupPlayerInputComponent(PlayerController, PlayerInputComponent, ELeftRight::Left);
 	RightMotionController->SetupPlayerInputComponent(PlayerController, PlayerInputComponent, ELeftRight::Right);
 
-	// PlayerInteractionComponent->SetupPlayerInputComponent(PlayerInputComponent);
+	LeftInteractionComponent->SetupPlayerInputComponent(InputComponent);
+	RightInteractionComponent->SetupPlayerInputComponent(InputComponent);
 }
 
 UPlayerMovementComponent* AVRCharacter::GetPlayerMovementComponent()
