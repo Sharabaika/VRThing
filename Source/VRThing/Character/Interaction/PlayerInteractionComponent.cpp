@@ -16,6 +16,7 @@ void UPlayerInteractionComponent::SetupPlayerInputComponent(UInputComponent* Inp
 {
 	const int32 WhichHandInt{ static_cast<int32>(WhichHand) };
 
+	// Fake input
 	const static FName GripNames[]{InputNames::GripLeft, InputNames::GripRight };
 	const FName GripName{ GripNames[WhichHandInt] };
 	InputComponent->BindAction(GripName, IE_Pressed, this, &ThisClass::OnFakeGripPressed)
@@ -53,7 +54,7 @@ void UPlayerInteractionComponent::SetDetector(UInteractionDetector* InInteractio
 
 void UPlayerInteractionComponent::TryToInteract()
 {
-	TScriptInterface<IInteractableComponent> Interactable = Detector->GetDetectedInteractable();
+	TScriptInterface<IInteractableComponent> Interactable = Detector->GetDesiredInteractable();
 	if (Interactable && Interactable->CanInteractWith(this))
 	{
 		InteractWith(Interactable);
@@ -62,6 +63,10 @@ void UPlayerInteractionComponent::TryToInteract()
 
 void UPlayerInteractionComponent::StopInteracting()
 {
+	if (CurrentInteractable)
+	{
+		CurrentInteractable->EndInteracting();
+	}
 }
 
 void UPlayerInteractionComponent::InteractWith(TScriptInterface<IInteractableComponent> InteractableComponent)

@@ -27,7 +27,7 @@ public:
 
 	virtual bool CanInteractWith(UPlayerInteractionComponent* InteractionComponent) const override;
 	virtual void StartInteracting(UPlayerInteractionComponent* InteractionComponent) override;
-	virtual void EndInteracting(UPlayerInteractionComponent* InteractionComponent) override;
+	virtual void EndInteracting() override;
 
 	AInteractableItemBase* GetInteractableItem() const;
 };

@@ -15,9 +15,9 @@ class IInteractableComponent
 {
 	GENERATED_BODY()
 public:
-
-	virtual bool CanInteractWith(UPlayerInteractionComponent* InteractionComponent) const{ return true; }
-
+	virtual bool CanInteractWith(UPlayerInteractionComponent* InteractionComponent) const { return true; }
+	virtual int GetInteractionPriority() const { return 0; }
+	
 	virtual void StartInteracting(UPlayerInteractionComponent* InteractionComponent){};
-	virtual void EndInteracting(UPlayerInteractionComponent* InteractionComponent){};
+	virtual void EndInteracting(){};
 };

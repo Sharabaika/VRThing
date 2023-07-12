@@ -1,15 +1,33 @@
 ﻿#include "InteractionDetector.h"
+#include "Algo/MaxElement.h"
 
 void UInteractionDetector::BeginPlay()
 {
 	Super::BeginPlay();
 
 	OnComponentBeginOverlap.AddDynamic(this, &ThisClass::OnOverlapBegin);
+	OnComponentEndOverlap.AddDynamic(this, &ThisClass::OnOverlapEnd);
 }
 
-void UInteractionDetector::SetDetectedInteractable(UObject* Object)
+TScriptInterface<IInteractableComponent> UInteractionDetector::GetDesiredInteractable() const
 {
-	DetectedInteractable = Object;
+	const TScriptInterface<IInteractableComponent>* DesiredInteractable = Algo::MaxElementBy(
+		DetectedInteractables, [](TScriptInterface<IInteractableComponent> Interactable)
+		{
+			return Interactable->GetInteractionPriority();
+		});
+
+	return DesiredInteractable ? *DesiredInteractable : nullptr;
+}
+
+void UInteractionDetector::AddDetectedInteractable(UObject* Object)
+{
+	DetectedInteractables.Add(Object);
+}
+
+void UInteractionDetector::RemoveDetectedInteractable(UObject* Object)
+{
+	DetectedInteractables.Remove(Object);
 }
 
 void UInteractionDetector::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
@@ -17,6 +35,15 @@ void UInteractionDetector::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, A
 {
 	if (OtherComp->Implements<UInteractableComponent>())
 	{
-		SetDetectedInteractable(OtherComp);
+		AddDetectedInteractable(OtherComp);
+	}
+}
+
+void UInteractionDetector::OnOverlapEnd(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (OtherComp->Implements<UInteractableComponent>())
+	{
+		RemoveDetectedInteractable(OtherComp);
 	}
 }

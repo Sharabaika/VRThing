@@ -14,13 +14,13 @@ class UPlayerInteractionComponent : public USceneComponent
 
 	// Dependencies //
 	// ============ //
-	UPROPERTY()
+	UPROPERTY(Transient)
 	TScriptInterface<IInteractableComponent> CurrentInteractable;	
 	
-	UPROPERTY()
+	UPROPERTY(Transient)
 	UInteractionDetector* Detector;
 	
-	UPROPERTY()
+	UPROPERTY(Transient)
 	TEnumAsByte<ELeftRight> WhichHand;
 	
 public:

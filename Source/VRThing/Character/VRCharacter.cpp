@@ -33,7 +33,7 @@ AVRCharacter::AVRCharacter(const FObjectInitializer& ObjectInitializer)
 	
 	INIT_COMPONENT(UVRMotionControllerComponent, RightMotionController);
 	RightMotionController->SetupAttachment(RootComponent);
-	LeftMotionController->MotionSource = "Right";
+	RightMotionController->MotionSource = "Right";
 
 	INIT_COMPONENT(UPlayerInteractionComponent, RightInteractionComponent);
 	RightInteractionComponent->SetupAttachment(RightMotionController);
@@ -42,7 +42,7 @@ AVRCharacter::AVRCharacter(const FObjectInitializer& ObjectInitializer)
 	INIT_COMPONENT(UInteractionDetector, RightInteractionDetector);
 	RightInteractionDetector->SetupAttachment(RightInteractionComponent);
 	
-	RightInteractionComponent->SetDetector(LeftInteractionDetector);
+	RightInteractionComponent->SetDetector(RightInteractionDetector);
 	
 	
 	GetPlayerMovementComponent()->SetDependencies(VRCamera);

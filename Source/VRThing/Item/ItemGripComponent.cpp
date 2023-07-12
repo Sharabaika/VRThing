@@ -15,10 +15,10 @@ void UItemGripComponent::StartInteracting(UPlayerInteractionComponent* Interacti
 	CurrentInteractingComponent = InteractionComponent;
 }
 
-void UItemGripComponent::EndInteracting(UPlayerInteractionComponent* InteractionComponent)
+void UItemGripComponent::EndInteracting()
 {
 	AInteractableItemBase* Item = GetInteractableItem();
-	Item->DropFrom(InteractionComponent);
+	Item->DropFrom(CurrentInteractingComponent);
 
 	CurrentInteractingComponent = nullptr;
 }
