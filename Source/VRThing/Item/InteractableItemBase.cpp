@@ -1,5 +1,4 @@
 ﻿#include "InteractableItemBase.h"
-
 #include "ItemGripComponent.h"
 #include "VRThing/Misc/Macto.h"
 
@@ -16,10 +15,13 @@ AInteractableItemBase::AInteractableItemBase()
 void AInteractableItemBase::GripBy(UItemGripComponent* ItemGrip,
 	UPlayerInteractionComponent* InteractionComponent)
 {
+	SkeletalMeshComponent->SetSimulatePhysics(false);
+
 	FAttachmentTransformRules AttachmentRules(
 		EAttachmentRule::KeepRelative, EAttachmentRule::SnapToTarget,
 		EAttachmentRule::KeepWorld, false);
 	AttachToComponent(InteractionComponent, AttachmentRules);
+	
 	SetActorRelativeLocation(ItemGrip->GetRelativeLocation());
 	SetActorRelativeRotation(ItemGrip->GetRelativeRotation().GetInverse());
 }
@@ -28,4 +30,6 @@ void AInteractableItemBase::DropFrom(UPlayerInteractionComponent* InteractionCom
 {
 	FDetachmentTransformRules DetachmentRules(EDetachmentRule::KeepWorld, EDetachmentRule::KeepWorld, EDetachmentRule::KeepWorld, false);
 	DetachFromActor(DetachmentRules);
+	
+	SkeletalMeshComponent->SetSimulatePhysics(true);
 }
