@@ -5,7 +5,7 @@
 #include "Interaction/InteractionDetector.h"
 #include "Interaction/PlayerInteractionComponent.h"
 #include "VRThing/Misc/Enums.h"
-#include "VRThing/Misc/Macto.h"
+#include "VRThing/Misc/Macro.h"
 
 
 AVRCharacter::AVRCharacter(const FObjectInitializer& ObjectInitializer)

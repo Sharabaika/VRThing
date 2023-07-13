@@ -1,6 +1,6 @@
 ﻿#include "InteractableItemBase.h"
 #include "ItemGripComponent.h"
-#include "VRThing/Misc/Macto.h"
+#include "VRThing/Misc/Macro.h"
 
 AInteractableItemBase::AInteractableItemBase()
 	: Super()
