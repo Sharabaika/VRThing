@@ -1,5 +1,4 @@
 ﻿#include "PlayerInteractionComponent.h"
-
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "InteractionDetector.h"
 #include "VRThing/Misc/Enums.h"
@@ -66,6 +65,7 @@ void UPlayerInteractionComponent::StopInteracting()
 	if (CurrentInteractable)
 	{
 		CurrentInteractable->EndInteracting();
+		CurrentInteractable = nullptr;
 	}
 }
 
@@ -73,6 +73,22 @@ void UPlayerInteractionComponent::InteractWith(TScriptInterface<IInteractableCom
 {
 	InteractableComponent->StartInteracting(this);
 	CurrentInteractable = InteractableComponent;
+}
+
+void UPlayerInteractionComponent::TryToTrigger()
+{
+	if (CurrentInteractable)
+	{
+		CurrentInteractable->StartTriggering(this);
+	}
+}
+
+void UPlayerInteractionComponent::StopTriggering()
+{
+	if (CurrentInteractable)
+	{
+		CurrentInteractable->EndTriggering(this);
+	}
 }
 
 void UPlayerInteractionComponent::OnGrip(float Value)
@@ -85,12 +101,12 @@ void UPlayerInteractionComponent::OnTrigger(float Value)
 
 void UPlayerInteractionComponent::OnFakeTriggerPressed()
 {
-
+	TryToTrigger();
 }
 
 void UPlayerInteractionComponent::OnFakeTriggerReleased()
 {
-
+	StopTriggering();
 }
 
 void UPlayerInteractionComponent::OnFakeGripPressed()

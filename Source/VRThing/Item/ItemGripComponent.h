@@ -18,16 +18,27 @@ public:
 	// ====== //
 	FItemGripInteractionDelegate ItemGripped;
 	FItemGripInteractionDelegate ItemReleased;
+
+	FItemGripInteractionDelegate ItemTriggered;
+	FItemGripInteractionDelegate ItemUntriggered;
+
 	
-	
+protected:
 	// Dependencies //
 	// ============ //
 	UPROPERTY()
 	UPlayerInteractionComponent* CurrentInteractingComponent;
 
+
+public:
+	// Methods //
+	// ======= //
 	virtual bool CanInteractWith(UPlayerInteractionComponent* InteractionComponent) const override;
 	virtual void StartInteracting(UPlayerInteractionComponent* InteractionComponent) override;
 	virtual void EndInteracting() override;
+
+	virtual void StartTriggering(UPlayerInteractionComponent* InteractionComponent) override;
+	virtual void EndTriggering(UPlayerInteractionComponent* InteractionComponent) override;
 
 	AInteractableItemBase* GetInteractableItem() const;
 };

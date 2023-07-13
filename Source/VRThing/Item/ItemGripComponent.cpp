@@ -9,7 +9,7 @@ bool UItemGripComponent::CanInteractWith(UPlayerInteractionComponent* Interactio
 void UItemGripComponent::StartInteracting(UPlayerInteractionComponent* InteractionComponent)
 {
 	AInteractableItemBase* Item = GetInteractableItem();
-	Item->GripBy(this, InteractionComponent);
+	Item->GripBy(InteractionComponent);
 	// TODO add grips registration, cast to something like IGripable
 	
 	CurrentInteractingComponent = InteractionComponent;
@@ -21,6 +21,18 @@ void UItemGripComponent::EndInteracting()
 	Item->DropFrom(CurrentInteractingComponent);
 
 	CurrentInteractingComponent = nullptr;
+}
+
+void UItemGripComponent::StartTriggering(UPlayerInteractionComponent* InteractionComponent)
+{
+	AInteractableItemBase* Item = GetInteractableItem();
+	Item->TriggerItem(InteractionComponent);
+}
+
+void UItemGripComponent::EndTriggering(UPlayerInteractionComponent* InteractionComponent)
+{
+	AInteractableItemBase* Item = GetInteractableItem();
+	Item->StopTriggering(InteractionComponent);
 }
 
 AInteractableItemBase* UItemGripComponent::GetInteractableItem() const

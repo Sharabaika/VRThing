@@ -18,6 +18,9 @@ public:
 	virtual bool CanInteractWith(UPlayerInteractionComponent* InteractionComponent) const { return true; }
 	virtual int GetInteractionPriority() const { return 0; }
 	
-	virtual void StartInteracting(UPlayerInteractionComponent* InteractionComponent){};
-	virtual void EndInteracting(){};
+	virtual void StartInteracting(UPlayerInteractionComponent* InteractionComponent){}
+	virtual void EndInteracting(){}
+
+	virtual void StartTriggering(UPlayerInteractionComponent* InteractionComponent){}
+	virtual void EndTriggering(UPlayerInteractionComponent* InteractionComponent){}
 };

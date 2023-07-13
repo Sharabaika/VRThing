@@ -12,8 +12,7 @@ AInteractableItemBase::AInteractableItemBase()
 	ItemGripComponent->SetupAttachment(RootComponent);
 }
 
-void AInteractableItemBase::GripBy(UItemGripComponent* ItemGrip,
-	UPlayerInteractionComponent* InteractionComponent)
+void AInteractableItemBase::GripBy(UPlayerInteractionComponent* InteractionComponent)
 {
 	SkeletalMeshComponent->SetSimulatePhysics(false);
 
@@ -22,8 +21,8 @@ void AInteractableItemBase::GripBy(UItemGripComponent* ItemGrip,
 		EAttachmentRule::KeepWorld, false);
 	AttachToComponent(InteractionComponent, AttachmentRules);
 	
-	SetActorRelativeLocation(ItemGrip->GetRelativeLocation());
-	SetActorRelativeRotation(ItemGrip->GetRelativeRotation().GetInverse());
+	SetActorRelativeLocation(ItemGripComponent->GetRelativeLocation());
+	SetActorRelativeRotation(ItemGripComponent->GetRelativeRotation().GetInverse());
 }
 
 void AInteractableItemBase::DropFrom(UPlayerInteractionComponent* InteractionComponent)
@@ -32,4 +31,12 @@ void AInteractableItemBase::DropFrom(UPlayerInteractionComponent* InteractionCom
 	DetachFromActor(DetachmentRules);
 	
 	SkeletalMeshComponent->SetSimulatePhysics(true);
+}
+
+void AInteractableItemBase::TriggerItem(UPlayerInteractionComponent* InteractionComponent)
+{
+}
+
+void AInteractableItemBase::StopTriggering(UPlayerInteractionComponent* InteractionComponent)
+{
 }

@@ -41,6 +41,9 @@ protected:
 
 	void InteractWith(TScriptInterface<IInteractableComponent> InteractableComponent);
 
+	void TryToTrigger();
+	void StopTriggering();
+
 	
 	// Input //
 	// ===== //
