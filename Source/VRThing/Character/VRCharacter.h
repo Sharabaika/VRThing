@@ -37,10 +37,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UInteractionDetector* RightInteractionDetector;
-
-	
-	// UPROPERTY(EditDefaultsOnly)
-	// UPlayerInteractionComponent* PlayerInteractionComponent;
 	
 public:	
 	// Lifecycle //

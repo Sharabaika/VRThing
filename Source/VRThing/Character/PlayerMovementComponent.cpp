@@ -37,7 +37,7 @@ void UPlayerMovementComponent::OnTurn(float Amount)
 
 void UPlayerMovementComponent::AddYaw(float Amount)
 {
-	auto* Controller{ Cast<APlayerController>(CharacterOwner->GetController()) };
+	auto* Controller = Cast<APlayerController>(CharacterOwner->GetController());
 	if (!Controller)
 	{
 		return;

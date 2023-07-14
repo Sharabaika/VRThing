@@ -1,5 +1,6 @@
 ﻿#include "InteractableItemBase.h"
 #include "ItemGripComponent.h"
+#include "VRThing/Character/Interaction/PlayerInteractionComponent.h"
 #include "VRThing/Misc/Macro.h"
 
 AInteractableItemBase::AInteractableItemBase()

@@ -1,10 +1,10 @@
 ﻿#pragma once
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "VRThing/Character/Interaction/PlayerInteractionComponent.h"
 #include "InteractableItemBase.generated.h"
 
 class UItemGripComponent;
+class UPlayerInteractionComponent;
 
 UCLASS()
 class AInteractableItemBase : public AActor
@@ -39,8 +39,4 @@ public:
 
 	virtual void TriggerItem(UPlayerInteractionComponent* InteractionComponent);
 	virtual void StopTriggering(UPlayerInteractionComponent* InteractionComponent);
-
-	
-	// Subroutines //
-	// =========== //;
 };

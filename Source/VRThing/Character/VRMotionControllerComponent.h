@@ -26,23 +26,8 @@ class UVRMotionControllerComponent : public UMotionControllerComponent
 	UPROPERTY()
 	TEnumAsByte<ELeftRight> WhichHand;
 
-	UPROPERTY()
-	float GripValue;
-	
-	UPROPERTY()
-	float TriggerValue;
-
 	
 public:
-	// Accessors //
-	// ========= //
-	UFUNCTION(BlueprintCallable)
-	float GetGripValue() const { return GripValue; }
-
-	UFUNCTION(BlueprintCallable)
-	float GetTriggerValue() const { return TriggerValue;}
-	
-	
 	// Lifecycle //
 	// ========= //
 	UVRMotionControllerComponent();
@@ -50,17 +35,15 @@ public:
 
 
 private:
-	
+	// Subroutines //
+	// =========== //
 	void EnableFakeControllerInput();
 	void DisableFakeControllerInput();
 	
 	void OnFakeX(float Value);
 	void OnFakeY(float Value);
 	void OnFakeZ(float Value);
-
-
-	// Subroutines //
-	// =========== //
+	
 	bool IsSuitableFakeInputHand() const;
 	bool ShouldRotateFakeInput() const;
 };
