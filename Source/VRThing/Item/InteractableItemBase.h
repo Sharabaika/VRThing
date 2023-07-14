@@ -4,7 +4,6 @@
 #include "VRThing/Character/Interaction/PlayerInteractionComponent.h"
 #include "InteractableItemBase.generated.h"
 
-
 class UItemGripComponent;
 
 UCLASS()
@@ -38,8 +37,8 @@ public:
 	void GripBy(UPlayerInteractionComponent* InteractionComponent);
 	void DropFrom(UPlayerInteractionComponent* InteractionComponent);
 
-	void TriggerItem(UPlayerInteractionComponent* InteractionComponent);
-	void StopTriggering(UPlayerInteractionComponent* InteractionComponent);
+	virtual void TriggerItem(UPlayerInteractionComponent* InteractionComponent);
+	virtual void StopTriggering(UPlayerInteractionComponent* InteractionComponent);
 
 	
 	// Subroutines //
