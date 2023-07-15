@@ -11,7 +11,7 @@ class UPlayerMovementComponent : public UCharacterMovementComponent
 
 	// Dependencies //
 	// ============ //
-	UPROPERTY()
+	UPROPERTY(Transient)
 	USceneComponent* CameraComponent;
 
 	
@@ -27,6 +27,7 @@ public:
 	void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent);
 
 	
+protected:
 	// Subroutines //
 	// =========== //
 
@@ -34,10 +35,7 @@ public:
 	// ----- //
 	void OnStrafe(float Amount);
 	void OnMoveFrontBack(float Amount);
-	void OnTurn(float Amount);
 	
-
-	// Handle Input //
-	// ------------ //
+	void OnTurn(float Amount);
 	void AddYaw(float Amount);
 };

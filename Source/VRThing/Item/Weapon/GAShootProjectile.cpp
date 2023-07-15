@@ -18,4 +18,6 @@ void UGAShootProjectile::ActivateAbility(const FGameplayAbilitySpecHandle Handle
 		auto* Projectile = GetWorld()->SpawnActor<AProjectileBase>(ProjectileClass, MuzzleTransform.GetLocation(), MuzzleTransform.Rotator());
 		Projectile->Launch();
 	}
+
+	FinishAbility();
 }

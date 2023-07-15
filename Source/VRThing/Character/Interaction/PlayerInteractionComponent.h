@@ -22,16 +22,16 @@ class UPlayerInteractionComponent : public USceneComponent
 	
 	UPROPERTY(Transient)
 	TEnumAsByte<ELeftRight> WhichHand;
+
 	
 public:
+	// Lifecycle //
+	// ========= //
 	virtual void BeginPlay() override;
 	void SetupPlayerInputComponent(UInputComponent* InputComponent);
 	void SetWhichHand(ELeftRight InWhichHand);
 	void SetDetector(UInteractionDetector* InInteractionDetector);
-	
-	
-	// Methods //
-	// ======= //
+
 
 protected:
 	// Subroutines //
@@ -58,5 +58,4 @@ protected:
 	
 	void OnFakeGripPressed();
 	void OnFakeGripReleased();
-	
 };
