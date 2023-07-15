@@ -1,25 +1,35 @@
 ﻿#pragma once
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
+#include "LivingEntity.h"
 #include "LivingEntityAttributeSet.h"
 #include "GameFramework/Actor.h"
 #include "ShootingTarget.generated.h"
 
 class UAbilitySystemComponent;
 UCLASS()
-class VRTHING_API AShootingTarget : public APawn, public IAbilitySystemInterface
+class VRTHING_API AShootingTarget : public APawn, public IAbilitySystemInterface, public ILivingEntity
 {
 	GENERATED_BODY()
 
 protected:
+	// Configuration //
+	// ============= //
+	UPROPERTY(EditDefaultsOnly)
+	TArray<TSubclassOf<UGameplayAbility>> GrantedAbilities;
+	
+	
 	// Subobjects //
 	// ========== //
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	USkeletalMeshComponent* SkeletalMeshComponent;
+
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	UAbilitySystemComponent* AbilitySystemComponent;
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	ULivingEntityAttributeSet* LivingEntityAttributes;
-	
+
 	
 public:
 	// Accessors //
@@ -29,4 +39,10 @@ public:
 	// Lifecycle //
 	// ========= //
 	AShootingTarget();
+	virtual void BeginPlay() override;
+
+
+	// Methods //
+	// ======= //
+	virtual void Die() override;
 };
