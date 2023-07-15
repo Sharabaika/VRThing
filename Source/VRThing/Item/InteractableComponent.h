@@ -18,7 +18,7 @@ public:
 	virtual bool CanInteractWith(UPlayerInteractionComponent* InteractionComponent) const { return true; }
 	virtual int GetInteractionPriority() const { return 0; }
 	
-	virtual void StartInteracting(UPlayerInteractionComponent* InteractionComponent){}
+	virtual TScriptInterface<IInteractableComponent> StartInteracting(UPlayerInteractionComponent* InteractionComponent){ return nullptr; }
 	virtual void EndInteracting(){}
 
 	virtual void StartTriggering(UPlayerInteractionComponent* InteractionComponent){}

@@ -1,21 +1,26 @@
 ﻿#include "InteractableItemBase.h"
 #include "ItemGripComponent.h"
+#include "Components/BoxComponent.h"
 #include "VRThing/Character/Interaction/PlayerInteractionComponent.h"
 #include "VRThing/Misc/Macro.h"
 
-AInteractableItemBase::AInteractableItemBase()
-	: Super()
+FName AInteractableItemBase::PhysicsRootName(TEXT("PhysicsRoot"));
+
+AInteractableItemBase::AInteractableItemBase(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer),
+	PhysicsRoot( ObjectInitializer.CreateDefaultSubobject<UPrimitiveComponent, UBoxComponent>(this, "PhysicsRoot") )
 {
-	INIT_COMPONENT(USkeletalMeshComponent, SkeletalMeshComponent);
-	SetRootComponent(SkeletalMeshComponent);
+	SetRootComponent(PhysicsRoot);
+	PhysicsRoot->SetCollisionProfileName("ItemPhysics");
+	PhysicsRoot->SetSimulatePhysics(true);
 	
 	INIT_COMPONENT(UItemGripComponent, ItemGripComponent);
-	ItemGripComponent->SetupAttachment(RootComponent);
+	ItemGripComponent->SetupAttachment(PhysicsRoot);
 }
 
 void AInteractableItemBase::GripBy(UPlayerInteractionComponent* InteractionComponent)
 {
-	SkeletalMeshComponent->SetSimulatePhysics(false);
+	PhysicsRoot->SetSimulatePhysics(false);
 
 	FAttachmentTransformRules AttachmentRules(
 		EAttachmentRule::KeepRelative, EAttachmentRule::SnapToTarget,
@@ -30,8 +35,8 @@ void AInteractableItemBase::DropFrom(UPlayerInteractionComponent* InteractionCom
 {
 	FDetachmentTransformRules DetachmentRules(EDetachmentRule::KeepWorld, EDetachmentRule::KeepWorld, EDetachmentRule::KeepWorld, false);
 	DetachFromActor(DetachmentRules);
-	
-	SkeletalMeshComponent->SetSimulatePhysics(true);
+
+	PhysicsRoot->SetSimulatePhysics(true);
 }
 
 void AInteractableItemBase::TriggerItem(UPlayerInteractionComponent* InteractionComponent)

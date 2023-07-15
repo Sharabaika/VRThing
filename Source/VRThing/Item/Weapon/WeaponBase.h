@@ -26,19 +26,21 @@ protected:
 	// Subobjects //
 	// ========== //
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	UArrowComponent* MuzzleComponent;
+	
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	UAbilitySystemComponent* AbilitySystemComponent;
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	UWeaponAttributeSet* WeaponAttributeSet;
-
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-	UArrowComponent* MuzzleComponent;
 
 	
 public:
 	// Accessors //
 	// ========= //
 	TSubclassOf<AProjectileBase> GetProjectileClass() const { return ProjectileClass; }
+
+	USkeletalMeshComponent* GetMesh() const { return Cast<USkeletalMeshComponent>(PhysicsRoot); }
 	
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent; }
 	UPrimitiveComponent* GetMuzzleComponent() const { return MuzzleComponent; }
@@ -46,7 +48,7 @@ public:
 	
 	// Lifecycle //
 	// ========= //
-	AWeaponBase();
+	AWeaponBase(const FObjectInitializer& ObjectInitializer);
 	virtual void BeginPlay() override;
 
 

@@ -18,10 +18,15 @@ protected:
 
 
 public:
+	// Lifecycle //
+	// ========= //
+	UItemGripComponent();
+	
+	
 	// Methods //
 	// ======= //
 	virtual bool CanInteractWith(UPlayerInteractionComponent* InteractionComponent) const override;
-	virtual void StartInteracting(UPlayerInteractionComponent* InteractionComponent) override;
+	virtual TScriptInterface<IInteractableComponent> StartInteracting(UPlayerInteractionComponent* InteractionComponent) override;
 	virtual void EndInteracting() override;
 
 	virtual void StartTriggering(UPlayerInteractionComponent* InteractionComponent) override;

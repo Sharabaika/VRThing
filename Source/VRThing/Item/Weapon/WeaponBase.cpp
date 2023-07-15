@@ -1,13 +1,16 @@
 ﻿#include "WeaponBase.h"
 #include "WeaponAttributeSet.h"
 
-AWeaponBase::AWeaponBase()
-{
+AWeaponBase::AWeaponBase(const FObjectInitializer& ObjectInitializer)
+	: Super(
+		ObjectInitializer.SetDefaultSubobjectClass<USkeletalMeshComponent>(AInteractableItemBase::PhysicsRootName)
+		)
+{	
+	INIT_COMPONENT(UArrowComponent, MuzzleComponent);
+	MuzzleComponent->SetupAttachment(PhysicsRoot);
+	
 	INIT_COMPONENT(UAbilitySystemComponent, AbilitySystemComponent);	
 	INIT_COMPONENT(UWeaponAttributeSet, WeaponAttributeSet);
-
-	INIT_COMPONENT(UArrowComponent, MuzzleComponent);
-	MuzzleComponent->SetupAttachment(RootComponent);
 }
 
 void AWeaponBase::BeginPlay()

@@ -14,7 +14,7 @@ protected:
 	// Subobjects //
 	// ========== //
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
-	USkeletalMeshComponent* SkeletalMeshComponent;
+	UPrimitiveComponent* PhysicsRoot;
 	
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	UItemGripComponent* ItemGripComponent;
@@ -25,11 +25,17 @@ protected:
 	UPROPERTY(Transient)
 	UPlayerInteractionComponent* GrippedInteractionComponent;
 	
-	
+	static FName PhysicsRootName;
+
 public:
+	// Accessors //
+	// ========= //
+	UItemGripComponent* GetMainGrip() const { return ItemGripComponent; }
+	
+	
 	// Lifecycle //
 	// ========= //
-	AInteractableItemBase();
+	AInteractableItemBase(const FObjectInitializer& ObjectInitializer);
 		
 
 	// Methods //
