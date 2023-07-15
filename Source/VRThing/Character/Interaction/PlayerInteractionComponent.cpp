@@ -71,8 +71,7 @@ void UPlayerInteractionComponent::StopInteracting()
 
 void UPlayerInteractionComponent::InteractWith(TScriptInterface<IInteractableComponent> InteractableComponent)
 {
-	InteractableComponent->StartInteracting(this);
-	CurrentInteractable = InteractableComponent;
+	CurrentInteractable = InteractableComponent->StartInteracting(this);
 }
 
 void UPlayerInteractionComponent::TryToTrigger()
