@@ -6,6 +6,8 @@
 
 class AInteractableItemBase;
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FInteractableItemDelegate, AInteractableItemBase*);
+
 UCLASS()
 class UItemPocket : public UBoxComponent, public IInteractableComponent
 {
@@ -17,15 +19,24 @@ class UItemPocket : public UBoxComponent, public IInteractableComponent
 	AInteractableItemBase* StoredItem;
 
 	
-public:	
+public:
+	// Events //
+	// ====== //
+	FInteractableItemDelegate ItemPlaced;
+	FInteractableItemDelegate ItemRemoved;
+	
+
+	// Lifecycle //
+	// ========= //
 	UItemPocket();
 	virtual void BeginPlay() override;
 
 
 	// Methods //
 	// ======= //
+	virtual bool CanInteractWith(UPlayerInteractionComponent* InteractionComponent) const override;
 	virtual TScriptInterface<IInteractableComponent> StartInteracting(UPlayerInteractionComponent* InteractionComponent) override;
-
+	
 
 protected:
 	// Subroutines //

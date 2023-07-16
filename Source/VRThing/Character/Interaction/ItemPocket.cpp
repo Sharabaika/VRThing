@@ -19,6 +19,11 @@ void UItemPocket::BeginPlay()
 	OnComponentEndOverlap.AddDynamic(this, &ThisClass::OnOverlapEnd);
 }
 
+bool UItemPocket::CanInteractWith(UPlayerInteractionComponent* InteractionComponent) const
+{
+	return IsValid(StoredItem);
+}
+
 TScriptInterface<IInteractableComponent> UItemPocket::StartInteracting(UPlayerInteractionComponent* InteractionComponent)
 {
 	auto* Item = RemoveItemFromStorage();
@@ -39,12 +44,14 @@ void UItemPocket::StoreItem(AInteractableItemBase* Item)
 {
 	Item->PutInPocket(this);
 	StoredItem = Item;
+	ItemPlaced.Broadcast(Item);
 }
 
 AInteractableItemBase* UItemPocket::RemoveItemFromStorage()
 {
 	AInteractableItemBase* Item = StoredItem;
 	StoredItem = nullptr;
+	ItemRemoved.Broadcast(StoredItem);
 	return Item;
 }
 

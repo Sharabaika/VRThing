@@ -19,6 +19,7 @@ protected:
 
 	// Subroutines //
 	// =========== //
+	virtual bool CanInteractWith(UPlayerInteractionComponent* InteractionComponent) const override;
 	virtual AInteractableItemBase* RemoveItemFromStorage() override;
 	virtual bool CanStoreItem(AInteractableItemBase* Item) const override;
 };

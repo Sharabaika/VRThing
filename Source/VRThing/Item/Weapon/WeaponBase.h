@@ -5,6 +5,7 @@
 #include "VRThing/Item/InteractableItemBase.h"
 #include "WeaponBase.generated.h"
 
+class UMagReceiver;
 class AProjectileBase;
 class UWeaponAttributeSet;
 class UGameplayAbility;
@@ -21,12 +22,20 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<AProjectileBase> ProjectileClass;
-	
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UGameplayAbility> ReloadAbility;
+
+	UPROPERTY(EditDefaultsOnly)
+	TArray<TSubclassOf<UGameplayAbility>> GrantedAbilities;
 	
 	// Subobjects //
 	// ========== //
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	UArrowComponent* MuzzleComponent;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	UMagReceiver* MagReceiver;
 	
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	UAbilitySystemComponent* AbilitySystemComponent;
@@ -42,8 +51,9 @@ public:
 
 	USkeletalMeshComponent* GetMesh() const { return Cast<USkeletalMeshComponent>(PhysicsRoot); }
 	
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent; }
 	UPrimitiveComponent* GetMuzzleComponent() const { return MuzzleComponent; }
+	UMagReceiver* GetMagReceiver() const { return MagReceiver; }	
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent; }
 	
 	
 	// Lifecycle //
@@ -55,4 +65,10 @@ public:
 	// Methods //
 	// ======= //
 	virtual void TriggerItem(UPlayerInteractionComponent* InteractionComponent) override;
+
+
+protected:
+	// Subroutines //
+	// =========== //
+	void OnMagPlaced(AInteractableItemBase* Mag);
 };
