@@ -1,6 +1,7 @@
 ﻿#include "InteractableItemBase.h"
 #include "ItemGripComponent.h"
 #include "Components/BoxComponent.h"
+#include "VRThing/Character/Interaction/ItemPocket.h"
 #include "VRThing/Character/Interaction/PlayerInteractionComponent.h"
 #include "VRThing/Misc/Macro.h"
 
@@ -20,23 +21,13 @@ AInteractableItemBase::AInteractableItemBase(const FObjectInitializer& ObjectIni
 
 void AInteractableItemBase::GripBy(UPlayerInteractionComponent* InteractionComponent)
 {
-	PhysicsRoot->SetSimulatePhysics(false);
-
-	FAttachmentTransformRules AttachmentRules(
-		EAttachmentRule::KeepRelative, EAttachmentRule::SnapToTarget,
-		EAttachmentRule::KeepWorld, false);
-	AttachToComponent(InteractionComponent, AttachmentRules);
-	
-	SetActorRelativeLocation(ItemGripComponent->GetRelativeLocation());
-	SetActorRelativeRotation(ItemGripComponent->GetRelativeRotation().GetInverse());
+	SnapToHolder(InteractionComponent);
 }
 
 void AInteractableItemBase::DropFrom(UPlayerInteractionComponent* InteractionComponent)
 {
-	FDetachmentTransformRules DetachmentRules(EDetachmentRule::KeepWorld, EDetachmentRule::KeepWorld, EDetachmentRule::KeepWorld, false);
-	DetachFromActor(DetachmentRules);
-
-	PhysicsRoot->SetSimulatePhysics(true);
+	RemoveFromHolder();
+	DroppedFromHand.Broadcast(this, InteractionComponent);
 }
 
 void AInteractableItemBase::TriggerItem(UPlayerInteractionComponent* InteractionComponent)
@@ -45,4 +36,39 @@ void AInteractableItemBase::TriggerItem(UPlayerInteractionComponent* Interaction
 
 void AInteractableItemBase::StopTriggering(UPlayerInteractionComponent* InteractionComponent)
 {
+}
+
+void AInteractableItemBase::PutInPocket(UItemPocket* Pocket)
+{
+	PocketOwner = Pocket;
+	SetActorEnableCollision(false);
+	SnapToHolder(Pocket);
+}
+
+void AInteractableItemBase::RemoveFromPocket()
+{
+	PocketOwner = nullptr;
+	SetActorEnableCollision(true);
+	RemoveFromHolder();
+}
+
+void AInteractableItemBase::SnapToHolder(USceneComponent* Holder)
+{
+	PhysicsRoot->SetSimulatePhysics(false);
+
+	FAttachmentTransformRules AttachmentRules(
+		EAttachmentRule::KeepRelative, EAttachmentRule::SnapToTarget,
+		EAttachmentRule::KeepWorld, false);
+	AttachToComponent(Holder, AttachmentRules);
+	
+	SetActorRelativeLocation(ItemGripComponent->GetRelativeLocation());
+	SetActorRelativeRotation(ItemGripComponent->GetRelativeRotation().GetInverse());
+}
+
+void AInteractableItemBase::RemoveFromHolder()
+{
+	FDetachmentTransformRules DetachmentRules(EDetachmentRule::KeepWorld, EDetachmentRule::KeepWorld, EDetachmentRule::KeepWorld, false);
+	DetachFromActor(DetachmentRules);
+
+	PhysicsRoot->SetSimulatePhysics(true);
 }

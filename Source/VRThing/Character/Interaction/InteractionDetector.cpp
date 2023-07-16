@@ -1,5 +1,12 @@
 ﻿#include "InteractionDetector.h"
+#include "VRThing/Item/InteractableComponent.h"
 #include "Algo/MaxElement.h"
+
+UInteractionDetector::UInteractionDetector()
+{
+	UPrimitiveComponent::SetCollisionProfileName("PlayerInteractionDetector");
+	SetGenerateOverlapEvents(true);
+}
 
 void UInteractionDetector::BeginPlay()
 {

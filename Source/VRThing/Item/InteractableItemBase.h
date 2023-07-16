@@ -3,8 +3,11 @@
 #include "GameFramework/Actor.h"
 #include "InteractableItemBase.generated.h"
 
+class UItemPocket;
 class UItemGripComponent;
 class UPlayerInteractionComponent;
+
+DECLARE_MULTICAST_DELEGATE_TwoParams(FInteracableItemEvent, AInteractableItemBase* /* self */, UPlayerInteractionComponent*);
 
 UCLASS()
 class AInteractableItemBase : public AActor
@@ -24,13 +27,23 @@ protected:
 	// ============ //
 	UPROPERTY(Transient)
 	UPlayerInteractionComponent* GrippedInteractionComponent;
+
+	UPROPERTY(Transient)
+	UItemPocket* PocketOwner;
 	
 	static FName PhysicsRootName;
 
 public:
+	// Events //
+	// ====== //
+	FInteracableItemEvent DroppedFromHand;
+	
+	
 	// Accessors //
 	// ========= //
 	UItemGripComponent* GetMainGrip() const { return ItemGripComponent; }
+
+	UItemPocket* GetPocketOwner() const { return PocketOwner; }
 	
 	
 	// Lifecycle //
@@ -45,4 +58,14 @@ public:
 
 	virtual void TriggerItem(UPlayerInteractionComponent* InteractionComponent);
 	virtual void StopTriggering(UPlayerInteractionComponent* InteractionComponent);
+	
+	void PutInPocket(UItemPocket* Pocket);
+	void RemoveFromPocket();
+
+	
+protected:
+	// Subroutines //
+	// =========== //
+	void SnapToHolder(USceneComponent* Holder);
+	void RemoveFromHolder();
 };

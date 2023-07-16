@@ -3,6 +3,7 @@
 #include "GameFramework/Character.h"
 #include "VRCharacter.generated.h"
 
+class UAmmoPocket;
 class UItemPocket;
 class UInteractionDetector;
 class UPlayerInteractionComponent;
@@ -40,7 +41,10 @@ protected:
 	UInteractionDetector* RightInteractionDetector;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UItemPocket* AmmoPocket;
+	UAmmoPocket* AmmoPocket;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UItemPocket* ItemPocket;
 	
 public:	
 	// Lifecycle //

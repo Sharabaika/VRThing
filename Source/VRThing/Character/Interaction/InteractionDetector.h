@@ -1,9 +1,9 @@
 ﻿#pragma once
 #include "CoreMinimal.h"
 #include "Components/CapsuleComponent.h"
-#include "UObject/Object.h"
-#include "VRThing/Item/InteractableComponent.h"
 #include "InteractionDetector.generated.h"
+
+class IInteractableComponent;
 
 UCLASS()
 class UInteractionDetector : public UCapsuleComponent
@@ -13,13 +13,14 @@ class UInteractionDetector : public UCapsuleComponent
 protected:
 	// Dependencies //
 	// ============ //
-	UPROPERTY()
+	UPROPERTY(Transient)
 	TArray<TScriptInterface<IInteractableComponent>> DetectedInteractables;
 
 
 public:
 	// Lifecycle //
 	// ========= //
+	UInteractionDetector();
 	virtual void BeginPlay() override;
 
 

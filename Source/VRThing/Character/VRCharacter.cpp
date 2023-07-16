@@ -5,6 +5,7 @@
 #include "Interaction/InteractionDetector.h"
 #include "Interaction/ItemPocket.h"
 #include "Interaction/PlayerInteractionComponent.h"
+#include "VRThing/Item/Weapon/AmmoPocket.h"
 #include "VRThing/Misc/Enums.h"
 #include "VRThing/Misc/Macro.h"
 
@@ -45,8 +46,11 @@ AVRCharacter::AVRCharacter(const FObjectInitializer& ObjectInitializer)
 	
 	RightInteractionComponent->SetDetector(RightInteractionDetector);
 
-	INIT_COMPONENT(UItemPocket, AmmoPocket);
+	INIT_COMPONENT(UAmmoPocket, AmmoPocket);
 	AmmoPocket->SetupAttachment(RootComponent);
+
+	INIT_COMPONENT(UItemPocket, ItemPocket);
+	ItemPocket->SetupAttachment(RootComponent);
 	
 	GetPlayerMovementComponent()->SetDependencies(VRCamera);
 }
