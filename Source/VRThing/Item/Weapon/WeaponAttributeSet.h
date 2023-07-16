@@ -11,6 +11,7 @@ class UWeaponAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
 
+protected:
 	// State //
 	// ===== //
 	UPROPERTY()

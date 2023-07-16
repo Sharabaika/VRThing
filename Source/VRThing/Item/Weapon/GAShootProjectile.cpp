@@ -8,9 +8,8 @@ void UGAShootProjectile::ActivateAbility(const FGameplayAbilitySpecHandle Handle
                                          const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
                                          const FGameplayEventData* TriggerEventData)
 {
-	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
-	
-	if (auto* Weapon = Cast<AWeaponBase>(GetAvatarActorFromActorInfo()))
+	auto* Weapon = Cast<AWeaponBase>(GetAvatarActorFromActorInfo());
+	if (CommitAbility(Handle, ActorInfo, ActivationInfo))
 	{
 		FTransform MuzzleTransform = Weapon->GetMuzzleComponent()->GetComponentTransform();
 		TSubclassOf<AProjectileBase> ProjectileClass = Weapon->GetProjectileClass();
