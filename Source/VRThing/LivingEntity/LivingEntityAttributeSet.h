@@ -2,7 +2,6 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
 #include "AttributeSet.h"
-#include "UObject/Object.h"
 #include "VRThing/Misc/Macro.h"
 #include "LivingEntityAttributeSet.generated.h"
 

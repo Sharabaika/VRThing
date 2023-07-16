@@ -3,12 +3,11 @@
 #include "AbilitySystemInterface.h"
 #include "LivingEntity.h"
 #include "LivingEntityAttributeSet.h"
-#include "GameFramework/Actor.h"
 #include "ShootingTarget.generated.h"
 
-class UAbilitySystemComponent;
+
 UCLASS()
-class VRTHING_API AShootingTarget : public APawn, public IAbilitySystemInterface, public ILivingEntity
+class AShootingTarget : public APawn, public IAbilitySystemInterface, public ILivingEntity
 {
 	GENERATED_BODY()
 

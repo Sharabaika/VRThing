@@ -1,4 +1,6 @@
 ﻿#include "ShootingTarget.h"
+#include "LivingEntityAttributeSet.h"
+#include "Abilities/GameplayAbility.h"
 
 AShootingTarget::AShootingTarget()
 {
