@@ -1,11 +1,15 @@
 ﻿#include "VRCharacter.h"
+
+#include "AbilitySystemComponent.h"
 #include "PlayerMovementComponent.h"
 #include "VRCamera.h"
 #include "VRMotionControllerComponent.h"
+#include "Components/WidgetInteractionComponent.h"
 #include "Interaction/InteractionDetector.h"
 #include "Interaction/ItemPocket.h"
 #include "Interaction/PlayerInteractionComponent.h"
 #include "VRThing/Item/Weapon/AmmoPocket.h"
+#include "VRThing/LivingEntity/LivingEntityAttributeSet.h"
 #include "VRThing/Misc/Enums.h"
 #include "VRThing/Misc/Macro.h"
 
@@ -46,6 +50,9 @@ AVRCharacter::AVRCharacter(const FObjectInitializer& ObjectInitializer)
 	
 	RightInteractionComponent->SetDetector(RightInteractionDetector);
 
+	// INIT_COMPONENT(UWidgetInteractionComponent, WidgetInteractionComponent);
+	// WidgetInteractionComponent->SetupAttachment(RightInteractionComponent);
+
 	INIT_COMPONENT(UAmmoPocket, AmmoPocket);
 	AmmoPocket->SetupAttachment(RootComponent);
 
@@ -53,6 +60,20 @@ AVRCharacter::AVRCharacter(const FObjectInitializer& ObjectInitializer)
 	ItemPocket->SetupAttachment(RootComponent);
 	
 	GetPlayerMovementComponent()->SetDependencies(VRCamera);
+
+	
+	INIT_COMPONENT(UAbilitySystemComponent, AbilitySystemComponent);
+	INIT_COMPONENT(ULivingEntityAttributeSet, LivingEntityAttributes);
+}
+
+void AVRCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	for (auto AbilityClas : GrantedAbilities)
+	{
+		GetAbilitySystemComponent()->GiveAbility(AbilityClas);
+	}
 }
 
 void AVRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -76,4 +97,26 @@ void AVRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 UPlayerMovementComponent* AVRCharacter::GetPlayerMovementComponent()
 {
 	return Cast<UPlayerMovementComponent>(GetCharacterMovement());
+}
+
+void AVRCharacter::Die()
+{
+	ShowDeathScreen();
+	LeftInteractionComponent->Deactivate();
+	RightInteractionComponent->Deactivate();
+	ItemPocket->Deactivate();
+	AmmoPocket->Deactivate();
+
+	
+}
+
+void AVRCharacter::Respawn()
+{
+	HideDeathScreen();
+	GetController()->Reset();
+
+	LeftInteractionComponent->Activate();
+	RightInteractionComponent->Activate();
+	ItemPocket->Activate();
+	AmmoPocket->Activate();
 }

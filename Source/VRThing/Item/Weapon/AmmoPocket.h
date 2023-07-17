@@ -17,6 +17,11 @@ protected:
 	TSubclassOf<AInteractableItemBase> ItemToSpawn;
 
 
+	// Lifecycle //
+	// ========= //
+	UAmmoPocket();
+	
+
 	// Subroutines //
 	// =========== //
 	virtual bool CanInteractWith(UPlayerInteractionComponent* InteractionComponent) const override;

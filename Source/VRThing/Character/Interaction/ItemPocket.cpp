@@ -9,6 +9,8 @@ UItemPocket::UItemPocket()
 	SetHiddenInGame(false);
 	UPrimitiveComponent::SetCollisionProfileName("ItemPocket");
 	SetGenerateOverlapEvents(true);
+
+	bDropItemOnDeactivate = true;
 }
 
 void UItemPocket::BeginPlay()
@@ -17,11 +19,28 @@ void UItemPocket::BeginPlay()
 
 	OnComponentBeginOverlap.AddDynamic(this, &ThisClass::OnOverlapBegin);
 	OnComponentEndOverlap.AddDynamic(this, &ThisClass::OnOverlapEnd);
+
+	SetActive(true);
+}
+
+void UItemPocket::Deactivate()
+{
+	Super::Deactivate();
+
+	if (!bDropItemOnDeactivate)
+	{
+		return;
+	}
+
+	if (auto* Item = RemoveItemFromStorage())
+	{
+		Item->RemoveFromPocket();
+	}
 }
 
 bool UItemPocket::CanInteractWith(UPlayerInteractionComponent* InteractionComponent) const
 {
-	return IsValid(StoredItem);
+	return IsValid(StoredItem) && IsActive();
 }
 
 TScriptInterface<IInteractableComponent> UItemPocket::StartInteracting(UPlayerInteractionComponent* InteractionComponent)
@@ -37,7 +56,7 @@ TScriptInterface<IInteractableComponent> UItemPocket::StartInteracting(UPlayerIn
 
 bool UItemPocket::CanStoreItem(AInteractableItemBase* Item) const
 {
-	return IsValid(Item) && !Item->GetPocketOwner() && StoredItem == nullptr;
+	return IsValid(Item) && !Item->GetPocketOwner() && StoredItem == nullptr && IsActive();
 }
 
 void UItemPocket::StoreItem(AInteractableItemBase* Item)

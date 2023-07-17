@@ -12,7 +12,13 @@ UCLASS()
 class UItemPocket : public UBoxComponent, public IInteractableComponent
 {
 	GENERATED_BODY()
-
+protected:
+	// Configuration //
+	// ============= //
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	bool bDropItemOnDeactivate;
+	
+	
 	// Dependencies //
 	// ============ //
 	UPROPERTY(Transient)
@@ -31,6 +37,7 @@ public:
 	UItemPocket();
 	virtual void BeginPlay() override;
 
+	virtual void Deactivate() override;
 
 	// Methods //
 	// ======= //

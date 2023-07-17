@@ -1,8 +1,13 @@
 ﻿#pragma once
 #include "CoreMinimal.h"
+#include "AbilitySystemInterface.h"
 #include "GameFramework/Character.h"
+#include "VRThing/LivingEntity/LivingEntity.h"
 #include "VRCharacter.generated.h"
 
+class UWidgetInteractionComponent;
+class ULivingEntityAttributeSet;
+class UGameplayAbility;
 class UAmmoPocket;
 class UItemPocket;
 class UInteractionDetector;
@@ -12,11 +17,17 @@ class UVRMotionControllerComponent;
 class UPlayerMovementComponent;
 
 UCLASS()
-class AVRCharacter : public ACharacter
+class AVRCharacter : public ACharacter, public IAbilitySystemInterface, public ILivingEntity
 {
 	GENERATED_BODY()
 
 protected:
+	// Configuration //
+	// ============= //
+	UPROPERTY(EditDefaultsOnly)
+	TArray<TSubclassOf<UGameplayAbility>> GrantedAbilities;
+	
+	
 	// Subobjects //
 	// ========== //
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
@@ -39,22 +50,45 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UInteractionDetector* RightInteractionDetector;
-
+	
+	// UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	// UWidgetInteractionComponent* WidgetInteractionComponent; 
+	//
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UAmmoPocket* AmmoPocket;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UItemPocket* ItemPocket;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	UAbilitySystemComponent* AbilitySystemComponent;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
+	ULivingEntityAttributeSet* LivingEntityAttributes;
+	
 	
 public:	
 	// Lifecycle //
 	// ========= //
 	AVRCharacter(const FObjectInitializer& ObjectInitializer);
-
+	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	
 
 	// Methods //
 	// ======= //
 	UPlayerMovementComponent* GetPlayerMovementComponent();
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent; }
+
+	virtual void Die() override;
+	virtual void Respawn() override;
+
+protected:
+	// Subroutines //
+	// =========== //
+	UFUNCTION(BlueprintImplementableEvent)
+	void ShowDeathScreen();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void HideDeathScreen();
 };

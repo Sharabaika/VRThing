@@ -14,5 +14,6 @@ class ILivingEntity
 	GENERATED_BODY()
 public:
 
-	virtual void Die() = 0;
+	virtual void Die(){};
+	virtual void Respawn(){};
 };

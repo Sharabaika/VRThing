@@ -1,9 +1,15 @@
 ﻿#include "AmmoPocket.h"
 #include "VRThing/Item/InteractableItemBase.h"
 
+UAmmoPocket::UAmmoPocket()
+	: Super()
+{
+	bDropItemOnDeactivate = false;
+}
+
 bool UAmmoPocket::CanInteractWith(UPlayerInteractionComponent* InteractionComponent) const
 {
-	return true;
+	return IsActive();
 }
 
 AInteractableItemBase* UAmmoPocket::RemoveItemFromStorage()

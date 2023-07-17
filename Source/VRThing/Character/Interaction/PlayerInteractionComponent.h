@@ -32,6 +32,7 @@ public:
 	void SetWhichHand(ELeftRight InWhichHand);
 	void SetDetector(UInteractionDetector* InInteractionDetector);
 
+	virtual void Deactivate() override;
 
 protected:
 	// Subroutines //

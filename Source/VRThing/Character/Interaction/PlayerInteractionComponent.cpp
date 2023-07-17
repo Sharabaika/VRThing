@@ -9,6 +9,7 @@ void UPlayerInteractionComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	SetActive(true);
 }
 
 void UPlayerInteractionComponent::SetupPlayerInputComponent(UInputComponent* InputComponent)
@@ -51,10 +52,17 @@ void UPlayerInteractionComponent::SetDetector(UInteractionDetector* InInteractio
 	Detector = InInteractionDetector;
 }
 
+void UPlayerInteractionComponent::Deactivate()
+{
+	Super::Deactivate();
+
+	StopInteracting();
+}
+
 void UPlayerInteractionComponent::TryToInteract()
 {
 	TScriptInterface<IInteractableComponent> Interactable = Detector->GetDesiredInteractable();
-	if (Interactable && Interactable->CanInteractWith(this))
+	if (Interactable && Interactable->CanInteractWith(this) && IsActive())
 	{
 		InteractWith(Interactable);
 	}
