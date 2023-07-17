@@ -50,9 +50,6 @@ AVRCharacter::AVRCharacter(const FObjectInitializer& ObjectInitializer)
 	
 	RightInteractionComponent->SetDetector(RightInteractionDetector);
 
-	// INIT_COMPONENT(UWidgetInteractionComponent, WidgetInteractionComponent);
-	// WidgetInteractionComponent->SetupAttachment(RightInteractionComponent);
-
 	INIT_COMPONENT(UAmmoPocket, AmmoPocket);
 	AmmoPocket->SetupAttachment(RootComponent);
 
@@ -102,21 +99,21 @@ UPlayerMovementComponent* AVRCharacter::GetPlayerMovementComponent()
 void AVRCharacter::Die()
 {
 	ShowDeathScreen();
+	
 	LeftInteractionComponent->Deactivate();
 	RightInteractionComponent->Deactivate();
 	ItemPocket->Deactivate();
 	AmmoPocket->Deactivate();
-
-	
 }
 
 void AVRCharacter::Respawn()
 {
 	HideDeathScreen();
-	GetController()->Reset();
 
 	LeftInteractionComponent->Activate();
 	RightInteractionComponent->Activate();
 	ItemPocket->Activate();
 	AmmoPocket->Activate();
+	
+	PlayerRespawned.Broadcast();
 }

@@ -16,6 +16,8 @@ class UVRCamera;
 class UVRMotionControllerComponent;
 class UPlayerMovementComponent;
 
+DECLARE_MULTICAST_DELEGATE(FVoidDelegate);
+
 UCLASS()
 class AVRCharacter : public ACharacter, public IAbilitySystemInterface, public ILivingEntity
 {
@@ -51,9 +53,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UInteractionDetector* RightInteractionDetector;
 	
-	// UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	// UWidgetInteractionComponent* WidgetInteractionComponent; 
-	//
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UAmmoPocket* AmmoPocket;
 
@@ -67,7 +66,12 @@ protected:
 	ULivingEntityAttributeSet* LivingEntityAttributes;
 	
 	
-public:	
+public:
+	// Events //
+	// ====== //
+	FVoidDelegate PlayerRespawned;
+	
+	
 	// Lifecycle //
 	// ========= //
 	AVRCharacter(const FObjectInitializer& ObjectInitializer);

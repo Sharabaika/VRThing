@@ -1,5 +1,7 @@
 ﻿#include "GADeath.h"
+#include "AbilitySystemComponent.h"
 #include "LivingEntity.h"
+#include "Abilities/Tasks/AbilityTask_WaitDelay.h"
 
 UGADeath::UGADeath()
 {
@@ -7,6 +9,8 @@ UGADeath::UGADeath()
 	const static FGameplayTag DeathEventTag = FGameplayTag::RequestGameplayTag("Event.LivingEntity.Death");
 	TriggerData.TriggerTag = DeathEventTag;
 	AbilityTriggers.Add(TriggerData);
+
+	RespawnDelay = 5.0f;
 }
 
 void UGADeath::OnAvatarSet(const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilitySpec& Spec)
@@ -27,5 +31,17 @@ void UGADeath::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FG
 		LivingAvatar->Die();
 	}
 
+	auto* Task = UAbilityTask_WaitDelay::WaitDelay(this, RespawnDelay);
+	Task->OnFinish.AddDynamic(this, &ThisClass::OnDelayFinished);
+	Task->ReadyForActivation();
+	
+}
+
+void UGADeath::OnDelayFinished()
+{
+	const static FGameplayTag RespawnEventTag = FGameplayTag::RequestGameplayTag("Event.LivingEntity.Respawn");
+	FGameplayEventData Payload;
+	GetAbilitySystemComponentFromActorInfo()->HandleGameplayEvent(RespawnEventTag, &Payload);
+	
 	FinishAbility();
 }
