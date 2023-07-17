@@ -13,4 +13,6 @@ void UGAReload::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const F
 	{
 		GetAbilitySystemComponentFromActorInfo()->ApplyGameplayEffectToSelf(RefillAmmoEffect->GetDefaultObject<UGameplayEffect>(), 0, MakeEffectContext(Handle, ActorInfo));
 	}
+
+	FinishAbility();
 }
