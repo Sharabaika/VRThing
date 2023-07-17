@@ -7,7 +7,7 @@
 
 
 UCLASS()
-class AShootingTarget : public APawn, public IAbilitySystemInterface, public ILivingEntity
+class AShootingTarget : public AActor, public IAbilitySystemInterface, public ILivingEntity
 {
 	GENERATED_BODY()
 
