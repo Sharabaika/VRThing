@@ -29,6 +29,12 @@ void AWeaponBase::BeginPlay()
 	}
 
 	MagReceiver->ItemPlaced.AddUObject(this, &ThisClass::OnMagPlaced);
+
+	if (AttributesInitEffect)
+	{
+		FGameplayEffectContextHandle Context;
+		AbilitySystemComponent->ApplyGameplayEffectToSelf(AttributesInitEffect->GetDefaultObject<UGameplayEffect>(), 0, Context);
+	}	
 }
 
 void AWeaponBase::TriggerItem(UPlayerInteractionComponent* InteractionComponent)

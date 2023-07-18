@@ -5,6 +5,7 @@
 #include "VRThing/Item/InteractableItemBase.h"
 #include "WeaponBase.generated.h"
 
+class UGameplayEffect;
 class UMagReceiver;
 class AProjectileBase;
 class UWeaponAttributeSet;
@@ -29,6 +30,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	TArray<TSubclassOf<UGameplayAbility>> GrantedAbilities;
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UGameplayEffect> AttributesInitEffect;
+	
 	
 	// Subobjects //
 	// ========== //
