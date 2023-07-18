@@ -28,6 +28,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly)
 	TArray<TSubclassOf<UGameplayAbility>> GrantedAbilities;
+
 	
 	// Subobjects //
 	// ========== //

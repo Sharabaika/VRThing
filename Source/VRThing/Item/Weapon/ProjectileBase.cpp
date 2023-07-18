@@ -6,6 +6,9 @@
 
 AProjectileBase::AProjectileBase()
 {
+	InitialVelocity = 1000.0f;
+	MinVelocityFractionToDamage = 0.1f;
+	
 	INIT_COMPONENT(USphereComponent, Collision);
 	SetRootComponent(Collision);
 }
@@ -15,18 +18,21 @@ void AProjectileBase::BeginPlay()
 	Super::BeginPlay();
 
 	Collision->OnComponentHit.AddDynamic(this, &ThisClass::OnHit);
+	SetLifeSpan(10.0f);
 }
 
 void AProjectileBase::Launch()
 {
-	Collision->AddImpulse(GetActorForwardVector()*InitialImpulse);
+	Collision->SetPhysicsLinearVelocity(GetActorForwardVector()*InitialVelocity);
 }
 
 void AProjectileBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 	FVector NormalImpulse, const FHitResult& Hit)
 {
 	auto* AbilitySystemInterface = Cast<IAbilitySystemInterface>(OtherActor);
-	if (AbilitySystemInterface && DamageEffect)
+	const float VelocityFraction = Collision->GetPhysicsLinearVelocity().Size() / InitialVelocity;
+	if (AbilitySystemInterface && DamageEffect &&
+		!bDidHit && VelocityFraction >= MinVelocityFractionToDamage)
 	{
 		FGameplayEffectContextHandle ContextHandle;
 		ContextHandle.AddInstigator(GetInstigator(), GetOwner());
@@ -34,5 +40,8 @@ void AProjectileBase::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActo
 		ContextHandle.AddSourceObject(this);
 
 		AbilitySystemInterface->GetAbilitySystemComponent()->ApplyGameplayEffectToSelf(DamageEffect->GetDefaultObject<UGameplayEffect>(), 1.0f, ContextHandle);
+
+		bDidHit = true;
+		Collision->OnComponentHit.RemoveAll(this);
 	}
 }

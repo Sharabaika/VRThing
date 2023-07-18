@@ -10,19 +10,27 @@ protected:
 	// Configuration //
 	// ============= //
 	UPROPERTY(EditDefaultsOnly)
-	float InitialImpulse;
+	float InitialVelocity;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UGameplayEffect> DamageEffect;
 
+	UPROPERTY(EditDefaultsOnly)
+	float MinVelocityFractionToDamage;
+
 	
 	// Subobjects //
 	// ========== //
-
-	// TODO sketchy
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UPrimitiveComponent* Collision;
 
+
+	// State //
+	// ===== //
+	UPROPERTY()
+	bool bDidHit;
+	
+	
 public:
 	// Lifecycle //
 	// ========= //
