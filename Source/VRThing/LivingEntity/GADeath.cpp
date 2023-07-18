@@ -34,7 +34,6 @@ void UGADeath::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FG
 	auto* Task = UAbilityTask_WaitDelay::WaitDelay(this, RespawnDelay);
 	Task->OnFinish.AddDynamic(this, &ThisClass::OnDelayFinished);
 	Task->ReadyForActivation();
-	
 }
 
 void UGADeath::OnDelayFinished()

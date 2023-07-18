@@ -16,7 +16,7 @@ class UVRCamera;
 class UVRMotionControllerComponent;
 class UPlayerMovementComponent;
 
-DECLARE_MULTICAST_DELEGATE(FVoidDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FBoolDynamicDelegate, bool, bValue);
 
 UCLASS()
 class AVRCharacter : public ACharacter, public IAbilitySystemInterface, public ILivingEntity
@@ -64,12 +64,19 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly)
 	ULivingEntityAttributeSet* LivingEntityAttributes;
+
+
+	// State //
+	// ===== //
+	UPROPERTY()
+	bool bAlive;
 	
 	
 public:
 	// Events //
 	// ====== //
-	FVoidDelegate PlayerRespawned;
+	UPROPERTY(BlueprintAssignable)
+	FBoolDynamicDelegate IsAliveChanged;
 	
 	
 	// Lifecycle //
@@ -87,15 +94,9 @@ public:
 	virtual void Die() override;
 	virtual void Respawn() override;
 
+	
 protected:
 	// Subroutines //
 	// =========== //
-	UFUNCTION(BlueprintImplementableEvent)
-	void ShowDeathScreen();
-
-	UFUNCTION(BlueprintImplementableEvent)
-	void HideDeathScreen();
-
-	UFUNCTION(BlueprintImplementableEvent)
-	void SpawnDeadBody();
+	void SetIsAlive(bool bValue);
 };

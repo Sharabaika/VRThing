@@ -1,5 +1,4 @@
 ﻿#include "VRCharacter.h"
-
 #include "AbilitySystemComponent.h"
 #include "PlayerMovementComponent.h"
 #include "VRCamera.h"
@@ -62,6 +61,8 @@ AVRCharacter::AVRCharacter(const FObjectInitializer& ObjectInitializer)
 	
 	INIT_COMPONENT(UAbilitySystemComponent, AbilitySystemComponent);
 	INIT_COMPONENT(ULivingEntityAttributeSet, LivingEntityAttributes);
+
+	bAlive = true;
 }
 
 void AVRCharacter::BeginPlay()
@@ -98,24 +99,26 @@ UPlayerMovementComponent* AVRCharacter::GetPlayerMovementComponent()
 }
 
 void AVRCharacter::Die()
-{
-	ShowDeathScreen();
-	
+{	
 	LeftInteractionComponent->Deactivate();
 	RightInteractionComponent->Deactivate();
 	ItemPocket->Deactivate();
 	AmmoPocket->Deactivate();
 	GetPlayerMovementComponent()->DisableMovement();
 
-	SpawnDeadBody();
+	SetIsAlive(false);
 }
 
 void AVRCharacter::Respawn()
 {
-	HideDeathScreen();
-	PlayerRespawned.Broadcast();
 	AbilitySystemComponent->CancelAllAbilities();
 	GetPlayerState<AVRPlayerState>()->NotifyPlayerRespawn();
 
 	SetLifeSpan(0.1f);
+}
+
+void AVRCharacter::SetIsAlive(bool bvalue)
+{
+	bAlive = bvalue;
+	IsAliveChanged.Broadcast(bAlive);
 }
