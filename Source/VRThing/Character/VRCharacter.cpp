@@ -8,6 +8,7 @@
 #include "Interaction/InteractionDetector.h"
 #include "Interaction/ItemPocket.h"
 #include "Interaction/PlayerInteractionComponent.h"
+#include "VRThing/GameMode/VRPlayerState.h"
 #include "VRThing/Item/Weapon/AmmoPocket.h"
 #include "VRThing/LivingEntity/LivingEntityAttributeSet.h"
 #include "VRThing/Misc/Enums.h"
@@ -104,16 +105,17 @@ void AVRCharacter::Die()
 	RightInteractionComponent->Deactivate();
 	ItemPocket->Deactivate();
 	AmmoPocket->Deactivate();
+	GetPlayerMovementComponent()->DisableMovement();
+
+	SpawnDeadBody();
 }
 
 void AVRCharacter::Respawn()
 {
 	HideDeathScreen();
-
-	LeftInteractionComponent->Activate();
-	RightInteractionComponent->Activate();
-	ItemPocket->Activate();
-	AmmoPocket->Activate();
-	
 	PlayerRespawned.Broadcast();
+	AbilitySystemComponent->CancelAllAbilities();
+	GetPlayerState<AVRPlayerState>()->NotifyPlayerRespawn();
+
+	SetLifeSpan(0.1f);
 }

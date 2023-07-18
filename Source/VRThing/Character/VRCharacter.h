@@ -95,4 +95,7 @@ protected:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void HideDeathScreen();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void SpawnDeadBody();
 };
