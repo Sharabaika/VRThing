@@ -7,6 +7,8 @@ UGARespawn::UGARespawn()
 	const static FGameplayTag RespawnEventTag = FGameplayTag::RequestGameplayTag("Event.LivingEntity.Respawn");
 	TriggerData.TriggerTag = RespawnEventTag;
 	AbilityTriggers.Add(TriggerData);
+
+	InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
 }
 
 void UGARespawn::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,

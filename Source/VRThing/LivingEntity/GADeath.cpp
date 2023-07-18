@@ -10,6 +10,8 @@ UGADeath::UGADeath()
 	TriggerData.TriggerTag = DeathEventTag;
 	AbilityTriggers.Add(TriggerData);
 
+	InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
+	
 	RespawnDelay = 5.0f;
 }
 

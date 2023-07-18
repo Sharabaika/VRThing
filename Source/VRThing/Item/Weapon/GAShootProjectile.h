@@ -13,5 +13,6 @@ class UGAShootProjectile : public UGABase
 protected:
 	// Lifecycle //
 	// ========= //
+	UGAShootProjectile();
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
 };

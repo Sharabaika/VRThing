@@ -4,6 +4,11 @@
 #include "WeaponBase.h"
 #include "Tasks/GameplayTask_SpawnActor.h"
 
+UGAShootProjectile::UGAShootProjectile()
+{
+	InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
+}
+
 void UGAShootProjectile::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
                                          const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
                                          const FGameplayEventData* TriggerEventData)
